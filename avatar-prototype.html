@@ -94,7 +94,7 @@ body{background:#6994c6 url("data:image/webp;base64,UklGRsDCAgBXRUJQVlA4ILTCAgCQ
   const AUTH_PUBLIC_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4ZmRsdWpwZWR4dXVtcWZld3ZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxMjcyMzAsImV4cCI6MjA5NzcwMzIzMH0.mM0xBhLGWG3vDgE06bEla8b4BhH7v6dvZ-BWn4ZOP0Q';
   const stageNames=['Visage','Coiffure','Vêtements','Accessoires','Validation'];
   const stageIcons=['🙂','💇','👕','🕶️','✅'];
-  const skins=['#f8d2b6','#ecc09d','#dca57a','#b97954','#915638','#633c2e'];
+  const skins=['#f8d2b6','#ecc09d','#dca57a','#b97954','#915638','#633c2e','#fff0e4'];
   const hairColors=['#302522','#6b3e2d','#a46b3b','#cf8d3c','#191e2d','#bb4a37','#d5a67f'];
   const eyeColors=['#503024','#4278aa','#3d8069','#6b5a35'];
   const shirtColors=['#1f509e','#d95676','#259b8a','#8d65bb','#e9a52b','#273448','#f3f1e9'];
@@ -150,7 +150,7 @@ body{background:#6994c6 url("data:image/webp;base64,UklGRsDCAgBXRUJQVlA4ILTCAgCQ
     if(i!==7 && i!==4)lastCategory=i;
     render();
   }
-  function swatches(key,palette){const row=document.createElement('div');row.className='swatches';palette.forEach((color,i)=>{const b=document.createElement('button');b.type='button';b.className='swatch '+(avatar[key]===i?'selected':'');b.style.setProperty('--tone',color);b.setAttribute('aria-label','Couleur '+(i+1));b.setAttribute('aria-pressed',avatar[key]===i?'true':'false');b.addEventListener('click',()=>{avatar[key]=i;render()});row.appendChild(b)});return row}
+  function swatches(key,palette){const row=document.createElement('div');row.className='swatches';palette.forEach((color,i)=>{const b=document.createElement('button');b.type='button';b.className='swatch '+(avatar[key]===i?'selected':'');b.style.setProperty('--tone',color);b.setAttribute('aria-label','Couleur '+(i+1));b.setAttribute('aria-pressed',avatar[key]===i?'true':'false');b.addEventListener('click',()=>{avatar[key]=i;render()});if(key==='skin' && i===6){b.title='Ivoire très clair';b.setAttribute('aria-label',b.title);row.prepend(b)}else row.appendChild(b)});return row}
   function choiceGrid(key,arr){const g=document.createElement('div');g.className='choice-grid '+key;arr.forEach(([id,label,emoji])=>{const b=document.createElement('button');b.type='button';const selected=key==='acc'?avatar.accessories.includes(id):avatar[key]===id;b.className='choice '+(selected?'selected':'');b.setAttribute('aria-pressed',selected?'true':'false');b.innerHTML=`<span class="emoji" aria-hidden="true">${emoji}</span><strong>${label}</strong>`;if (key !== 'acc') {
       const preview = {...avatar, [key]:id};
       const box = key === 'clothes' ? 'body' : 'head';
