@@ -35,7 +35,7 @@ body{background:#6994c6 url("data:image/webp;base64,UklGRsDCAgBXRUJQVlA4ILTCAgCQ
 .choice-grid.acc .emoji{filter:grayscale(1) sepia(1) saturate(3) drop-shadow(0 1px 1px #94572c55)}
 .model-picker{display:flex;gap:5px;margin-top:12px;padding:4px;background:#dee8f5;border-radius:14px}.model-picker button{flex:1;border-radius:10px;border:1px solid transparent;background:transparent;color:#254c78;padding:8px;font-weight:800}.model-picker button[aria-pressed=true]{background:linear-gradient(#fff0bd,#ffca4e);border-color:#dda52c;color:#302746;box-shadow:0 2px 3px #0b275325}
 [hidden]{display:none!important}#journey{max-width:1650px;margin:auto;min-height:calc(100vh - 68px);padding:clamp(14px,2vw,32px);display:grid;grid-template-columns:minmax(190px,1fr) minmax(0,2.5fr) minmax(190px,1fr);gap:clamp(12px,1.6vw,28px);align-items:start;color:#102c54;background:linear-gradient(180deg,#3898e99c,#b7e7ff55 70%,transparent)}.jr-card{border:2px solid white;border-radius:24px;background:linear-gradient(150deg,#fffffff7,#eaf6ffed);padding:clamp(14px,1.5vw,24px);box-shadow:0 5px 0 #6295bd99,0 10px 24px #12365633}.jr-profile,.jr-stats{margin-top:18px}.jr-id{display:flex;align-items:center;gap:8px}.jr-id img{width:42%;max-width:110px;border-radius:18px;background:linear-gradient(#a9d4ff,#f8fbff)}.jr-id strong,.jr-id small,.jr-session small{display:block;overflow-wrap:anywhere}.jr-id strong{font-size:clamp(16px,1.5vw,24px)}.jr-link{border:0;border-radius:10px;background:#e3eefc;color:#174c89;font-weight:750;padding:8px 12px}.jr-profile .jr-link{margin:10px 0}.jr-session{background:linear-gradient(120deg,#fff4bd,#ffdc83);padding:14px;border-radius:15px}.jr-profile ul{padding-left:18px;line-height:1.9}.jr-profile li::marker{color:#d79600}.jr-center{text-align:center}.jr-center h1{display:table;margin:0 auto 16px;padding:8px 22px;border:2px solid white;border-radius:40px;background:linear-gradient(#ffeaa0,#ffbf35);font-size:clamp(18px,2vw,26px);box-shadow:0 3px 0 #ac790f}.jr-center #jrMap{display:flex;justify-content:space-around;align-items:center;margin:0 auto 22px;background:linear-gradient(transparent 45%,#fff 45% 55%,transparent 55%);width:86%}#jrMap span{background:#7daed1;color:#12375a;border:2px solid white;border-radius:50%;width:36px;height:36px;display:grid;place-items:center;font-weight:800}#jrMap .current{background:#ffd36b}#jrMap .done{background:#aee2b7}.jr-work{padding:12px 12px 20px}.jr-bar{background:linear-gradient(120deg,#104d98,#247cc3);color:white;border-radius:15px;padding:15px;display:flex;justify-content:space-between;align-items:center;gap:10px}.jr-bar span{font-size:14px}.jr-work form{padding:clamp(18px,3vw,50px) 6px 0}.jr-work label{display:block;text-align:left;font-weight:800}.jr-equation{display:flex;justify-content:center;align-items:center;gap:12px;font-size:clamp(24px,3.5vw,58px);font-weight:800;margin:30px 0}.jr-equation input{width:3.5em;max-width:40%;text-align:center;border:2px solid #78a9ce;border-radius:12px;color:#113f77;font:inherit}.jr-stats{display:grid;gap:14px}.jr-card h3{font-size:17px;margin:8px 0 12px}.jr-stats strong,.jr-time b{font-size:24px}.jr-time{display:flex;align-items:center;justify-content:space-between;gap:4px;font-variant-numeric:tabular-nums}.jr-stats progress{display:block;width:100%;accent-color:#eaaa20;margin-top:9px}#jrFeedback:not(:empty){border-radius:13px;padding:14px;background:#e1f0ff;font-weight:800}#jrFeedback[data-correct="true"]{background:#daf4d8;color:#18572e}@media(max-width:900px){#journey{grid-template-columns:minmax(150px,.8fr) minmax(0,2fr)}.jr-stats{grid-column:1/-1;grid-template-columns:repeat(2,1fr);margin:0}}@media(max-width:600px){#journey{display:flex;flex-direction:column}#journey>*{width:100%}.jr-profile{margin:0}.jr-profile ul,.jr-profile h3,.jr-session{display:none}.jr-id img{width:56px}.jr-profile{display:flex;align-items:center;justify-content:space-between}.jr-bar{font-size:14px}.jr-center h1{margin-top:5px}}
-</style>
+#jrFeedback{white-space:pre-line;line-height:1.65}#jrFeedback:not([data-correct="true"]){text-align:left}</style>
 </head>
 <body>
 <header class="top">
@@ -294,7 +294,7 @@ body{background:#6994c6 url("data:image/webp;base64,UklGRsDCAgBXRUJQVlA4ILTCAgCQ
   const skills=['Tables de multiplication','Multiplier par 10, 100, 1 000','Diviser par 10, 100, 1 000','Défi récapitulatif'];
   let run=null, owner='', tick=0;
   const runKey=()=>getKey()+'_parcours';
-  function newRun(number=1, level=0){return {number,level,count:0,score:0,streak:0,hits:0,left:2400,paused:false,last:null,task:null}}
+  function newRun(number=1, level=0, review=[]){return {warm:0,warmHits:0,review,stats:[[0,0],[0,0],[0,0]],mistakes:[],number,level,count:0,score:0,streak:0,hits:0,left:2400,paused:false,last:null,task:null}}
   function persistRun(){if(owner!==runKey())return;try{localStorage.setItem(owner,JSON.stringify(run))}catch{tell('Progression disponible uniquement dans cet onglet')}}
   function question(n,level){
     const block=Math.floor(n/10), topic=block===3?n%3:block;
@@ -304,11 +304,30 @@ body{background:#6994c6 url("data:image/webp;base64,UklGRsDCAgBXRUJQVlA4ILTCAgCQ
     const val=level===2?base/10:base, left=topic===1?val:Math.round(val*factor);
     return {label:left.toLocaleString('fr-FR')+(topic===1?' × ':' ÷ ')+factor.toLocaleString('fr-FR'),value:topic===1?Math.round(val*factor):val};
   }
+  function nextTask(){
+    if(run.warm<3)return run.review[run.warm] || question(run.warm*10,Math.max(0,run.level-1));
+    return question(run.count,run.level);
+  }
+  function report(){
+    const lines=['Entraînement : '+run.score/10+' bonnes réponses sur '+run.count+' questions traitées.'];
+    if(!run.legacy)lines.push('Échauffement : '+run.warmHits+' / '+run.warm+' réponses justes.');
+    run.stats.forEach(([right,total],i)=>{if(total)lines.push(skills[i]+' : '+right+' / '+total+'.')});
+    if(run.legacy)lines.push('Le détail par compétence porte sur les réponses enregistrées depuis la mise à jour.');
+    if(run.mistakes.length){
+      lines.push('À revoir au prochain échauffement :');
+      run.mistakes.forEach(t=>lines.push(t.label+' = '+t.value.toLocaleString('fr-FR')));
+    }else if(run.count)lines.push('Prochain échauffement : rappel des tables et des puissances de 10.');
+    return lines.join('\n');
+  }
   function openJourney(){
     clearInterval(tick);owner=runKey();run=null;
     try{run=JSON.parse(localStorage.getItem(owner))}catch{}
     if(!run||!Number.isInteger(run.count)||run.count<0||run.count>40)run=newRun();
-    if(!run.task&&run.count<40)run.task=question(run.count,run.level);
+    if(run.warm===undefined){
+      const legacy=run;run=Object.assign(newRun(),legacy,{warm:legacy.count||legacy.last||!legacy.left?3:0,legacy:!!(legacy.count||!legacy.left)});
+      if(!run.warm)run.task=null;
+    }
+    if(!run.task&&run.count<40)run.task=nextTask();
     document.querySelector('.shell').hidden=true;$('journey').hidden=false;
     $('jrAvatar').src=portrait(avatar,'head');$('jrName').textContent=$('studentName').textContent;$('jrClass').textContent=$('studentClass').textContent;
     drawRun();persistRun();window.scrollTo(0,0);
@@ -323,22 +342,35 @@ body{background:#6994c6 url("data:image/webp;base64,UklGRsDCAgBXRUJQVlA4ILTCAgCQ
     $('jrSession').textContent='Séance '+run.number+' – 40 minutes';$('jrTitle').textContent='Mon parcours – Séance '+run.number;
     $('jrMap').innerHTML=skills.map((_,i)=>'<span class="'+(run.count===40||i<block?'done':i===block?'current':'')+'">'+(run.count===40||i<block?'✓':i+1)+'</span>').join('')+'<span>🏆</span>';
     $('jrTopic').textContent=end?'Bilan de la séance':skills[block];$('jrCounter').textContent=end?'':('Question '+(index%10+1)+' / 10');
+    const warming=run.warm<3 || !!run.last?.warm;
+    if(!end && warming){
+      $('jrTopic').textContent='Échauffement · Réactiver mes acquis';
+      $('jrCounter').textContent='Rappel '+(run.warm+(answered?0:1))+' / 3';
+    }
     $('jrForm').hidden=end||run.paused;$('jrQuestion').textContent=(run.task?.label||'')+' =';$('jrInput').disabled=answered;$('jrCheck').hidden=answered;
     $('jrTime').textContent=clock();$('jrPause').disabled=end;$('jrPause').textContent=run.paused?'Reprendre':'Pause';
     $('jrStreak').textContent=run.streak+' de suite';$('jrScore').textContent=run.score+' points';$('jrProgress').textContent=Math.floor(run.count/10)+' / 4 activités · '+Math.round(run.count*2.5)+' %';$('jrMeter').value=run.count;
     $('jrFeedback').dataset.correct=String(!end&&run.last?.ok===true);
-    $('jrFeedback').textContent=end?('Séance terminée · '+run.score+' points sur '+run.count+' réponses.'):run.paused?'Séance en pause':answered?((run.last.ok?'Bravo ! ':'À retenir : ')+run.task.label+' = '+run.task.value.toLocaleString('fr-FR')+(run.last.ok?' · +10 points':'')):'';
+    $('jrFeedback').textContent=end?report():run.paused?'Séance en pause':answered?((run.last.ok?'Bravo ! ':'À retenir : ')+run.task.label+' = '+run.task.value.toLocaleString('fr-FR')+(run.last.ok&&!warming?' · +10 points':'')):'';
     $('jrNext').hidden=!end&&(!answered||run.paused);$('jrNext').textContent=end?'Commencer la séance suivante →':'Question suivante →';
+    if(!end&&warming&&!answered&&!run.paused)$('jrFeedback').textContent='Trois rappels pour commencer, sans points.';
+    if(!end&&run.last?.warm&&run.warm===3)$('jrNext').textContent='Commencer l’entraînement →';
     $('jrInput').value=answered?run.last.input:'';
   }
   $('jrForm').onsubmit=e=>{e.preventDefault();if(run.last||run.paused||!run.left||run.count>=40)return;
     const input=$('jrInput').value.trim().replace(',','.');if(!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(input)){tell('Saisis un nombre');return}
-    const ok=Math.abs(Number(input)-run.task.value)<1e-8;run.last={ok,input};run.count++;run.streak=ok?run.streak+1:0;
+    const ok=Math.abs(Number(input)-run.task.value)<1e-8;const warm=run.warm<3;
+    run.last={ok,input,warm};
+    if(!ok && !run.mistakes.some(t=>t.label===run.task.label) && run.mistakes.length<3)run.mistakes.push({...run.task});
+    if(warm){run.warm++;if(ok)run.warmHits++;persistRun();drawRun();$('jrNext').focus();return}
+    const topic=run.count>=30?run.count%3:Math.floor(run.count/10);
+    run.stats[topic][1]++;if(ok)run.stats[topic][0]++;
+    run.count++;run.streak=ok?run.streak+1:0;
     if(ok){run.score+=10;run.hits++}
     if(run.count%10===0){run.level=Math.max(0,Math.min(2,run.level+(run.hits>=8?1:run.hits<5?-1:0)));run.hits=0}
     persistRun();drawRun();$('jrNext').focus()};
-  $('jrNext').onclick=()=>{if(run.count===40||!run.left)run=newRun(run.number+1,run.level);
-    run.last=null;run.task=question(run.count,run.level);persistRun();drawRun();$('jrInput').focus()};
+  $('jrNext').onclick=()=>{if(run.count===40||!run.left)run=newRun(run.number+1,run.level,run.mistakes.slice());
+    run.last=null;run.task=nextTask();persistRun();drawRun();$('jrInput').focus()};
   $('jrPause').onclick=()=>{run.paused=!run.paused;persistRun();drawRun()};
   $('jrEdit').onclick=()=>{closeJourney();setStep(1)};
   function enterFromCreator(){if(saveLocal())openJourney()}
